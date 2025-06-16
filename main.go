@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	"html/template"
 	"net/http"
 	"strconv"
 
@@ -11,16 +11,17 @@ import (
 )
 
 func main() {
+	indexTmpl := template.Must(template.ParseFiles("frontend/index.html"))
+	gameTmpl := template.Must(template.ParseFiles("frontend/game.html"))
+
 	// Register players once when server starts.
 	players.InitPlayer("Blue", "blue")
 	players.InitPlayer("Red", "red")
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprint(w, `<html><body><h1>Quadria UI</h1>`+
-			`<form action="/start" method="POST">`+
-			`Board size: <input type="number" name="size" value="3" min="2"/>`+
-			`<input type="submit" value="Start"/>`+
-			`</form></body></html>`)
+		if err := indexTmpl.Execute(w, nil); err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+		}
 	})
 
 	http.HandleFunc("/start", func(w http.ResponseWriter, r *http.Request) {
@@ -41,17 +42,9 @@ func main() {
 
 	http.HandleFunc("/game", func(w http.ResponseWriter, r *http.Request) {
 		b := board.GetBoard()
-		fmt.Fprint(w, "<html><body><h1>Quadria UI</h1><table>")
-		for _, row := range b.Tiles {
-			fmt.Fprint(w, "<tr>")
-			for _, tile := range row {
-				fmt.Fprintf(w,
-					"<td style='width:30px;height:30px;text-align:center;background:%s'>%d</td>",
-					tile.Player.Color, tile.Value)
-			}
-			fmt.Fprint(w, "</tr>")
+		if err := gameTmpl.Execute(w, b); err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
-		fmt.Fprint(w, "</table></body></html>")
 	})
 
 	http.ListenAndServe(":8080", nil)
