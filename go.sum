@@ -1,0 +1,8 @@
+github.com/buger/goterm v1.0.0 h1:ZB6uUlY8+sjJyFGzz2WpRqX2XYPeXVgtZAOJMwOsTWM=
+github.com/buger/goterm v1.0.0/go.mod h1:16STi3LquiscTIHA8SXUNKEa/Cnu4ZHBH8NsCaWgso0=
+github.com/kortschak/ct v0.0.0-20140325011614-7d86dffe6951 h1:I12D1A/+qvQfb7cENS32wTtXNF9dh7S8H847WGjnJ1U=
+github.com/kortschak/ct v0.0.0-20140325011614-7d86dffe6951/go.mod h1:5l1kPezpRemBE+Nj0tHiYk9JXHpgYwg0sOC5pvEScm8=
+github.com/rossus/quadria v0.0.0-20210424121910-a759079be286 h1:7t/bwZijYw1+X6b7cpIte36QYtD+QiIyt5I08uNKyXQ=
+github.com/rossus/quadria v0.0.0-20210424121910-a759079be286/go.mod h1:GTp8bvV3C3cSMnHJlh3DhJTRu0BQLLpYfwMP/SHw71k=
+golang.org/x/sys v0.0.0-20210331175145-43e1dd70ce54 h1:rF3Ohx8DRyl8h2zw9qojyLHLhrJpEMgyPOImREEryf0=
+golang.org/x/sys v0.0.0-20210331175145-43e1dd70ce54/go.mod h1:h1NjWce9XRLGQEsW7wpKNCjG9DtNlClVuFLEZdDNbEs=
