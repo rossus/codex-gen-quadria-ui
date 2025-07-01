@@ -3,7 +3,25 @@
 <body>
 <h1>Quadria UI</h1>
 <form action="/start" method="POST">
-Board size: <input type="number" name="size" value="3" min="2"/>
+Board size: <input type="number" name="size" value="3" min="2"/><br/>
+<h3>Player 1</h3>
+Name: <input type="text" name="name1" value="Player One"/><br/>
+Color:
+<select name="color1">
+  <option value="blue" selected>Blue</option>
+  <option value="red">Red</option>
+  <option value="green">Green</option>
+  <option value="yellow">Yellow</option>
+</select><br/>
+<h3>Player 2</h3>
+Name: <input type="text" name="name2" value="Player Two"/><br/>
+Color:
+<select name="color2">
+  <option value="red" selected>Red</option>
+  <option value="blue">Blue</option>
+  <option value="green">Green</option>
+  <option value="yellow">Yellow</option>
+</select><br/>
 <input type="submit" value="Start"/>
 </form>
 </body>
