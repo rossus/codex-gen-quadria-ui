@@ -82,8 +82,8 @@ func (h *Handler) Game(w http.ResponseWriter, r *http.Request, _ httprouter.Para
 		http.Error(w, "no active game", http.StatusBadRequest)
 		return
 	}
-	b := h.Server.Session.Board.GetBoard()
-	if err := h.Server.GameTmpl.Execute(w, b); err != nil {
+	tiles := h.Server.Session.Board.GetTiles()
+	if err := h.Server.GameTmpl.Execute(w, tiles); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 }
