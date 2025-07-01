@@ -2,6 +2,6 @@ github.com/buger/goterm v1.0.0/go.mod h1:16STi3LquiscTIHA8SXUNKEa/Cnu4ZHBH8NsCaW
 github.com/julienschmidt/httprouter v1.3.0 h1:U0609e9tgbseu3rBINet9P48AI/D3oJs4dN7jwJOQ1U=
 github.com/julienschmidt/httprouter v1.3.0/go.mod h1:JR6WtHb+2LUe8TCKY3cZOxFyyO8IZAc4RVcycCCAKdM=
 github.com/kortschak/ct v0.0.0-20140325011614-7d86dffe6951/go.mod h1:5l1kPezpRemBE+Nj0tHiYk9JXHpgYwg0sOC5pvEScm8=
-github.com/rossus/quadria v0.0.0-20210424121910-a759079be286 h1:7t/bwZijYw1+X6b7cpIte36QYtD+QiIyt5I08uNKyXQ=
-github.com/rossus/quadria v0.0.0-20210424121910-a759079be286/go.mod h1:GTp8bvV3C3cSMnHJlh3DhJTRu0BQLLpYfwMP/SHw71k=
+github.com/rossus/quadria v0.0.0-20250701003649-5efa6b298467 h1:5zPHJbb5fBiBRzd0Ioje229NJ4L1Jg/7a7SX6T1slTE=
+github.com/rossus/quadria v0.0.0-20250701003649-5efa6b298467/go.mod h1:GTp8bvV3C3cSMnHJlh3DhJTRu0BQLLpYfwMP/SHw71k=
 golang.org/x/sys v0.0.0-20210331175145-43e1dd70ce54/go.mod h1:h1NjWce9XRLGQEsW7wpKNCjG9DtNlClVuFLEZdDNbEs=

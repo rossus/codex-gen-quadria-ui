@@ -5,14 +5,14 @@ import (
 
 	"github.com/rossus/codex-gen-quadria-ui/constants"
 	"github.com/rossus/codex-gen-quadria-ui/handlers"
-	"github.com/rossus/codex-gen-quadria-ui/types"
 )
 
-// NewRouter returns a configured httprouter.Router.
-func NewRouter(s *types.Server) *httprouter.Router {
+// NewRouter returns a configured httprouter.Router using the provided handler.
+func NewRouter(h *handlers.Handler) *httprouter.Router {
 	r := httprouter.New()
-	r.GET(constants.RouteIndex, handlers.Index(s))
-	r.POST(constants.RouteStart, handlers.Start(s))
-	r.GET(constants.RouteGame, handlers.Game(s))
+
+	r.GET(constants.RouteIndex, h.Index)
+	r.POST(constants.RouteStart, h.Start)
+	r.GET(constants.RouteGame, h.Game)
 	return r
 }
