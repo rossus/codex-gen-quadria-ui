@@ -1,7 +1,10 @@
 package handlers
 
 import (
+	"fmt"
 	"net/http"
+	"os"
+	"path/filepath"
 	"strconv"
 
 	"github.com/julienschmidt/httprouter"
@@ -86,4 +89,43 @@ func (h *Handler) Game(w http.ResponseWriter, r *http.Request, _ httprouter.Para
 	if err := h.Server.GameTmpl.Execute(w, tiles); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
+}
+
+// Dice serves a dice image for the provided value. If a custom image exists in
+// constants.CustomDiceDir it is served. Otherwise an SVG is generated with the
+// dice background colored via the "color" query parameter.
+func (h *Handler) Dice(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	val, err := strconv.Atoi(ps.ByName("value"))
+	if err != nil || val < 1 || val > 6 {
+		http.NotFound(w, r)
+		return
+	}
+
+	custom := filepath.Join(constants.CustomDiceDir, fmt.Sprintf("dice-%d.svg", val))
+	if _, err := os.Stat(custom); err == nil {
+		http.ServeFile(w, r, custom)
+		return
+	}
+
+	color := r.URL.Query().Get("color")
+	if color == "" {
+		color = "white"
+	}
+
+	w.Header().Set("Content-Type", "image/svg+xml")
+	w.Write([]byte(renderDiceSVG(val, color)))
+}
+
+// renderDiceSVG returns a minimal dice SVG with the given value and fill color.
+func renderDiceSVG(val int, color string) string {
+	dots := map[int]string{
+		1: "<circle cx='15' cy='15' r='3' fill='black'/>",
+		2: "<circle cx='9' cy='9' r='3' fill='black'/><circle cx='21' cy='21' r='3' fill='black'/>",
+		3: "<circle cx='9' cy='9' r='3' fill='black'/><circle cx='15' cy='15' r='3' fill='black'/><circle cx='21' cy='21' r='3' fill='black'/>",
+		4: "<circle cx='9' cy='9' r='3' fill='black'/><circle cx='21' cy='9' r='3' fill='black'/><circle cx='9' cy='21' r='3' fill='black'/><circle cx='21' cy='21' r='3' fill='black'/>",
+		5: "<circle cx='9' cy='9' r='3' fill='black'/><circle cx='21' cy='9' r='3' fill='black'/><circle cx='15' cy='15' r='3' fill='black'/><circle cx='9' cy='21' r='3' fill='black'/><circle cx='21' cy='21' r='3' fill='black'/>",
+		6: "<circle cx='9' cy='7' r='3' fill='black'/><circle cx='9' cy='15' r='3' fill='black'/><circle cx='9' cy='23' r='3' fill='black'/><circle cx='21' cy='7' r='3' fill='black'/><circle cx='21' cy='15' r='3' fill='black'/><circle cx='21' cy='23' r='3' fill='black'/>",
+	}
+
+	return fmt.Sprintf("<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30'><rect width='30' height='30' rx='5' ry='5' fill='%s' stroke='black'/>%s</svg>", color, dots[val])
 }

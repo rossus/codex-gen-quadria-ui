@@ -8,7 +8,7 @@
     {{range .}}
     <td style='width:30px;height:30px;text-align:center;background:{{.Player.Color}}'>
         {{if and (ge .Value 1) (le .Value 6)}}
-            <img src="/static/dice-{{.Value}}.svg" width="30" height="30" alt="{{.Value}}"/>
+            <img src="/dice/{{.Value}}?color={{.Player.Color}}" width="30" height="30" alt="{{.Value}}"/>
         {{else}}
             {{.Value}}
         {{end}}

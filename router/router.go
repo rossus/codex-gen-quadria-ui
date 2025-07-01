@@ -16,6 +16,7 @@ func NewRouter(h *handlers.Handler) *httprouter.Router {
 	r.GET(constants.RouteIndex, h.Index)
 	r.POST(constants.RouteStart, h.Start)
 	r.GET(constants.RouteGame, h.Game)
+	r.GET(constants.RouteDice, h.Dice)
 	r.ServeFiles("/static/*filepath", http.Dir("static"))
 	return r
 }
