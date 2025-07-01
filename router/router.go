@@ -1,6 +1,8 @@
 package router
 
 import (
+	"net/http"
+
 	"github.com/julienschmidt/httprouter"
 
 	"github.com/rossus/codex-gen-quadria-ui/constants"
@@ -14,5 +16,6 @@ func NewRouter(h *handlers.Handler) *httprouter.Router {
 	r.GET(constants.RouteIndex, h.Index)
 	r.POST(constants.RouteStart, h.Start)
 	r.GET(constants.RouteGame, h.Game)
+	r.ServeFiles("/static/*filepath", http.Dir("static"))
 	return r
 }
