@@ -3,6 +3,7 @@ package types
 import (
 	"html/template"
 
+	qtypes "github.com/rossus/quadria/common/types"
 	"github.com/rossus/quadria/session"
 )
 
@@ -11,6 +12,7 @@ type Server struct {
 	IndexTmpl *template.Template
 	GameTmpl  *template.Template
 	Session   *session.Session
+	Players   []qtypes.Player
 }
 
 // NewServer loads templates and returns a Server instance.
