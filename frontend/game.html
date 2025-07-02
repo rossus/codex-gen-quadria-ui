@@ -6,7 +6,13 @@
 {{range .}}
 <tr>
     {{range .}}
-    <td style='width:30px;height:30px;text-align:center;background:{{.Player.Color}}'>{{.Value}}</td>
+    <td style='width:30px;height:30px;text-align:center;background:{{.Player.Color}}'>
+        {{if and (ge .Value 1) (le .Value 6)}}
+            <img src="/dice/{{.Value}}?color={{.Player.Color}}" width="30" height="30" style="display:block" alt="{{.Value}}"/>
+        {{else}}
+            {{.Value}}
+        {{end}}
+    </td>
     {{end}}
 </tr>
 {{end}}

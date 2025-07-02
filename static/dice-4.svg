@@ -1,0 +1,7 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30'>
+  <rect width='30' height='30' rx='5' ry='5' fill='white' stroke='black'/>
+  <circle cx='9' cy='9' r='3' fill='black'/>
+  <circle cx='21' cy='9' r='3' fill='black'/>
+  <circle cx='9' cy='21' r='3' fill='black'/>
+  <circle cx='21' cy='21' r='3' fill='black'/>
+</svg>
