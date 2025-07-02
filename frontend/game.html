@@ -3,15 +3,17 @@
 <body>
 <h1>Quadria UI</h1>
 <table>
-{{range .}}
+{{range $y, $row := .}}
 <tr>
-    {{range .}}
-    <td style='width:30px;height:30px;text-align:center;background:{{.Player.Color}}'>
-        {{if and (ge .Value 1) (le .Value 6)}}
-            <img src="/dice/{{.Value}}?color={{.Player.Color}}" width="30" height="30" style="display:block" alt="{{.Value}}"/>
+    {{range $x, $tile := $row}}
+    <td style='width:30px;height:30px;text-align:center;background:{{$tile.Player.Color}}'>
+        <a href="/move/{{$x}}/{{$y}}" style="display:block;width:30px;height:30px;">
+        {{if and (ge $tile.Value 1) (le $tile.Value 6)}}
+            <img src="/dice/{{$tile.Value}}?color={{$tile.Player.Color}}" width="30" height="30" style="display:block" alt="{{$tile.Value}}"/>
         {{else}}
-            {{.Value}}
+            {{$tile.Value}}
         {{end}}
+        </a>
     </td>
     {{end}}
 </tr>
