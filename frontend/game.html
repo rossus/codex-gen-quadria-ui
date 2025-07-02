@@ -2,8 +2,14 @@
 <html>
 <body>
 <h1>Quadria UI</h1>
+<h2>Turn {{.Turn}}</h2>
+<ul>
+{{range $p := .Players}}
+    <li style='color:{{$p.Color}}'>{{if eq $p.Name $.Active.Name}}<b>{{$p.Name}}</b>{{else}}{{$p.Name}}{{end}}</li>
+{{end}}
+</ul>
 <table>
-{{range $y, $row := .}}
+{{range $y, $row := .Tiles}}
 <tr>
     {{range $x, $tile := $row}}
     <td style='width:30px;height:30px;text-align:center;background:{{$tile.Player.Color}}'>

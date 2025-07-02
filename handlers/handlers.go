@@ -12,6 +12,7 @@ import (
 	"github.com/rossus/codex-gen-quadria-ui/constants"
 	"github.com/rossus/codex-gen-quadria-ui/types"
 	"github.com/rossus/quadria/board"
+	qtypes "github.com/rossus/quadria/common/types"
 	"github.com/rossus/quadria/gameplay"
 	"github.com/rossus/quadria/players"
 	"github.com/rossus/quadria/session"
@@ -73,6 +74,11 @@ func (h *Handler) Start(w http.ResponseWriter, r *http.Request, _ httprouter.Par
 	pls.AddPlayer(name1, color1)
 	pls.AddPlayer(name2, color2)
 
+	h.Server.Players = []qtypes.Player{
+		{Name: name1, Color: color1},
+		{Name: name2, Color: color2},
+	}
+
 	b := board.InitNewBoard(size, pls)
 	g := gameplay.InitializeNewGame(pls)
 	h.Server.Session = session.InitializeNewSession(pls, b, g)
@@ -85,8 +91,13 @@ func (h *Handler) Game(w http.ResponseWriter, r *http.Request, _ httprouter.Para
 		http.Error(w, "no active game", http.StatusBadRequest)
 		return
 	}
-	tiles := h.Server.Session.Board.GetTiles()
-	if err := h.Server.GameTmpl.Execute(w, tiles); err != nil {
+	data := types.GamePageData{
+		Tiles:   h.Server.Session.Board.GetTiles(),
+		Turn:    h.Server.Session.Game.GetTurnNum(),
+		Players: h.Server.Players,
+		Active:  *h.Server.Session.Players.GetActivePlayer(),
+	}
+	if err := h.Server.GameTmpl.Execute(w, data); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 }
