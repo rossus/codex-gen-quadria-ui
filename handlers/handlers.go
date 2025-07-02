@@ -91,6 +91,28 @@ func (h *Handler) Game(w http.ResponseWriter, r *http.Request, _ httprouter.Para
 	}
 }
 
+// Move executes a player's turn on the selected tile then redirects to the game board.
+func (h *Handler) Move(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	if h.Server.Session == nil {
+		http.Error(w, "no active game", http.StatusBadRequest)
+		return
+	}
+
+	x, err := strconv.Atoi(ps.ByName("x"))
+	if err != nil {
+		http.Error(w, "invalid coordinates", http.StatusBadRequest)
+		return
+	}
+	y, err := strconv.Atoi(ps.ByName("y"))
+	if err != nil {
+		http.Error(w, "invalid coordinates", http.StatusBadRequest)
+		return
+	}
+
+	h.Server.Session.Go(x, y)
+	http.Redirect(w, r, constants.RouteGame, http.StatusSeeOther)
+}
+
 // Dice serves a dice image for the provided value. If a custom image exists in
 // constants.CustomDiceDir it is served. Otherwise an SVG is generated with the
 // dice background colored via the "color" query parameter.
