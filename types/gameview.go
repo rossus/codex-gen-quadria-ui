@@ -8,4 +8,5 @@ type GamePageData struct {
 	Turn    int
 	Players []qtypes.Player
 	Active  qtypes.Player
+	Winner  *qtypes.Player
 }
