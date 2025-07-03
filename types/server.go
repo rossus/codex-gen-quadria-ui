@@ -13,6 +13,7 @@ type Server struct {
 	GameTmpl  *template.Template
 	Session   *session.Session
 	Players   []qtypes.Player
+	Winner    *qtypes.Player
 }
 
 // NewServer loads templates and returns a Server instance.

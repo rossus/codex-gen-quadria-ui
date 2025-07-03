@@ -82,6 +82,7 @@ func (h *Handler) Start(w http.ResponseWriter, r *http.Request, _ httprouter.Par
 	b := board.InitNewBoard(size, pls)
 	g := gameplay.InitializeNewGame(pls)
 	h.Server.Session = session.InitializeNewSession(pls, b, g)
+	h.Server.Winner = nil
 	http.Redirect(w, r, constants.RouteGame, http.StatusSeeOther)
 }
 
@@ -96,6 +97,7 @@ func (h *Handler) Game(w http.ResponseWriter, r *http.Request, _ httprouter.Para
 		Turn:    h.Server.Session.Game.GetTurnNum(),
 		Players: h.Server.Players,
 		Active:  *h.Server.Session.Players.GetActivePlayer(),
+		Winner:  h.Server.Winner,
 	}
 	if err := h.Server.GameTmpl.Execute(w, data); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -106,6 +108,10 @@ func (h *Handler) Game(w http.ResponseWriter, r *http.Request, _ httprouter.Para
 func (h *Handler) Move(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	if h.Server.Session == nil {
 		http.Error(w, "no active game", http.StatusBadRequest)
+		return
+	}
+	if h.Server.Winner != nil {
+		http.Redirect(w, r, constants.RouteGame, http.StatusSeeOther)
 		return
 	}
 
@@ -120,7 +126,9 @@ func (h *Handler) Move(w http.ResponseWriter, r *http.Request, ps httprouter.Par
 		return
 	}
 
-	h.Server.Session.Go(x, y)
+	if h.Server.Session.Go(x, y) {
+		h.Server.Winner = h.Server.Session.Players.GetActivePlayer()
+	}
 	http.Redirect(w, r, constants.RouteGame, http.StatusSeeOther)
 }
 

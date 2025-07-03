@@ -2,6 +2,10 @@
 <html>
 <body>
 <h1>Quadria UI</h1>
+{{if .Winner}}
+<h2>{{.Winner.Name}} wins!</h2>
+<p><a href="/">Start a new game</a></p>
+{{end}}
 <h2>Turn {{.Turn}}</h2>
 <ul>
 {{range $p := .Players}}
@@ -13,13 +17,15 @@
 <tr>
     {{range $x, $tile := $row}}
     <td style='width:30px;height:30px;text-align:center;background:{{$tile.Player.Color}}'>
+        {{if not $.Winner}}
         <a href="/move/{{$x}}/{{$y}}" style="display:block;width:30px;height:30px;">
+        {{end}}
         {{if and (ge $tile.Value 1) (le $tile.Value 6)}}
             <img src="/dice/{{$tile.Value}}?color={{$tile.Player.Color}}" width="30" height="30" style="display:block" alt="{{$tile.Value}}"/>
         {{else}}
             {{$tile.Value}}
         {{end}}
-        </a>
+        {{if not $.Winner}}</a>{{end}}
     </td>
     {{end}}
 </tr>
