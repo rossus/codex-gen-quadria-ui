@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h1>Quadria UI</h1>
+<h2>Turn {{.Turn}}</h2>
+<ul>
+{{range $p := .Players}}
+    <li style='color:{{$p.Color}}'>{{if eq $p.Name $.Active.Name}}<b>{{$p.Name}}</b>{{else}}{{$p.Name}}{{end}}</li>
+{{end}}
+</ul>
+<div id="board"></div>
+<script>
+const steps = {{.Steps}};
+function render(board) {
+    let html = '<table>';
+    for (let y = 0; y < board.length; y++) {
+        html += '<tr>';
+        for (let x = 0; x < board[y].length; x++) {
+            const t = board[y][x];
+            html += `<td style="width:30px;height:30px;text-align:center;background:${t.color}">${t.value}</td>`;
+        }
+        html += '</tr>';
+    }
+    html += '</table>';
+    document.getElementById('board').innerHTML = html;
+}
+let i = 0;
+(function step(){
+    if (i < steps.length) {
+        render(steps[i]);
+        i++; 
+        setTimeout(step, 100);
+    } else {
+        window.location.href = '{{.GameURL}}';
+    }
+})();
+</script>
+</body>
+</html>

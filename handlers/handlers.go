@@ -1,7 +1,9 @@
 package handlers
 
 import (
+	"encoding/json"
 	"fmt"
+	"html/template"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -126,10 +128,27 @@ func (h *Handler) Move(w http.ResponseWriter, r *http.Request, ps httprouter.Par
 		return
 	}
 
-	if h.Server.Session.Go(x, y) {
+	frames, won := runMove(h.Server.Session, x, y)
+	if won {
 		h.Server.Winner = h.Server.Session.Players.GetActivePlayer()
 	}
-	http.Redirect(w, r, constants.RouteGame, http.StatusSeeOther)
+
+	dataBytes, err := json.Marshal(frames)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	anim := types.AnimateData{
+		Steps:   template.JS(dataBytes),
+		Turn:    h.Server.Session.Game.GetTurnNum(),
+		Players: h.Server.Players,
+		Active:  *h.Server.Session.Players.GetActivePlayer(),
+		GameURL: constants.RouteGame,
+	}
+	if err := h.Server.AnimateTmpl.Execute(w, anim); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
 }
 
 // Dice serves a dice image for the provided value. If a custom image exists in
