@@ -17,7 +17,13 @@ function render(board) {
         html += '<tr>';
         for (let x = 0; x < board[y].length; x++) {
             const t = board[y][x];
-            html += `<td style="width:30px;height:30px;text-align:center;background:${t.color}">${t.value}</td>`;
+            html += `<td style="width:30px;height:30px;text-align:center;background:${t.color}">`;
+            if (t.value >= 1 && t.value <= 6) {
+                html += `<img src="/dice/${t.value}?color=${t.color}" width="30" height="30" style="display:block" alt="${t.value}"/>`;
+            } else {
+                html += t.value;
+            }
+            html += `</td>`;
         }
         html += '</tr>';
     }
