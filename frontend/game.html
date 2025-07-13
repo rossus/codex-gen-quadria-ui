@@ -17,7 +17,7 @@
 <tr>
     {{range $x, $tile := $row}}
     <td style='width:30px;height:30px;text-align:center;background:{{$tile.Player.Color}}'>
-        {{if not $.Winner}}
+        {{if and (not $.Winner) (or (eq $tile.Player.Color $.Active.Color) (eq $tile.Player.Name ""))}}
         <a href="/move/{{$x}}/{{$y}}" style="display:block;width:30px;height:30px;">
         {{end}}
         {{if and (ge $tile.Value 1) (le $tile.Value 6)}}
@@ -25,7 +25,7 @@
         {{else}}
             {{$tile.Value}}
         {{end}}
-        {{if not $.Winner}}</a>{{end}}
+        {{if and (not $.Winner) (or (eq $tile.Player.Color $.Active.Color) (eq $tile.Player.Name ""))}}</a>{{end}}
     </td>
     {{end}}
 </tr>

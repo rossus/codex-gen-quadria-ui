@@ -128,6 +128,12 @@ func (h *Handler) Move(w http.ResponseWriter, r *http.Request, ps httprouter.Par
 		return
 	}
 
+	tile := h.Server.Session.Board.GetTile(x, y)
+	if tile.Player != h.Server.Session.Players.GetActivePlayer() && tile.Player != h.Server.Session.Players.GetBlankPlayer() {
+		http.Redirect(w, r, constants.RouteGame, http.StatusSeeOther)
+		return
+	}
+
 	frames, won := runMove(h.Server.Session, x, y)
 	if won {
 		h.Server.Winner = h.Server.Session.Players.GetActivePlayer()
